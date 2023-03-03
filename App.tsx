@@ -1,128 +1,59 @@
-import React, {useState} from 'react';
+import React from 'react';
 // import type {PropsWithChildren} from 'react';
-import {
-  Button,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {SectionList, StyleSheet, Text} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+function App(this: any): JSX.Element {
+  // const [Items, setItems] = useState([
+  //   {id: '1', item1: `Item ${this.id}-1`, item2: `Item ${this.id}-2`},
+  // ]);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    height: '100%',
-  };
+  interface SOME_TYPE {
+    id: number;
+    title: string;
+    data: string[];
+  }
+
+  const DATA: Array<SOME_TYPE> = [
+    {
+      id: 1,
+      title: `Title ${this.id}`,
+      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
+    },
+    {
+      id: 2,
+      title: `Title ${this.id}`,
+      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
+    },
+    {
+      id: 3,
+      title: `Title ${this.id}`,
+      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
+    },
+  ];
+
+  const styles = StyleSheet.create({
+    item: {
+      color: Colors.black,
+      fontSize: 20,
+    },
+    title: {
+      backgroundColor: 'skyblue',
+      fontSize: 30,
+    },
+  });
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <View style={styles.mainContainer}>
-        <View style={styles.container1}>
-          <View style={styles.box1}>
-            <Text style={styles.text}>1</Text>
-          </View>
-          <View style={styles.box2}>
-            <Text style={styles.text}>2</Text>
-          </View>
-          <View style={styles.box3}>
-            <Text style={styles.text}>3</Text>
-          </View>
-        </View>
-        <View style={styles.box4}>
-          <Text style={styles.text}>4</Text>
-        </View>
-        <View style={styles.box5}>
-          <Text style={styles.text}>5</Text>
-        </View>
-        <View style={styles.container2}>
-          <View style={styles.box6}>
-            <Text style={styles.text}>6</Text>
-          </View>
-          <View style={styles.box7}>
-            <Text style={styles.text}>7</Text>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+    <SectionList
+      keyExtractor={(item, index) => item + index}
+      sections={DATA}
+      renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+      renderSectionHeader={({section: {title}}) => (
+        <Text style={styles.title}>{title}</Text>
+      )}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  text: {
-    color: Colors.black,
-    fontSize: 30,
-  },
-  mainContainer: {
-    flex: 1,
-    backgroundColor: Colors.darker,
-  },
-  container1: {
-    flex: 1,
-    minHeight: 30,
-    flexDirection: 'row',
-  },
-  container2: {
-    flex: 7,
-    flexDirection: 'row',
-  },
-  box1: {
-    flex: 1,
-    backgroundColor: 'skyblue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box2: {
-    flex: 2,
-    backgroundColor: 'purple ',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box3: {
-    flex: 3,
-    backgroundColor: 'yellow',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box4: {
-    flex: 1,
-    minHeight: 30,
-    flexDirection: 'row',
-    backgroundColor: 'red',
-    height: '10%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box5: {
-    flex: 1,
-    minHeight: 30,
-    flexDirection: 'row',
-    backgroundColor: 'green',
-    height: '10%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box6: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  box7: {
-    flex: 1,
-    backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
