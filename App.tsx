@@ -1,58 +1,38 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import type {PropsWithChildren} from 'react';
-import {SectionList, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 function App(this: any): JSX.Element {
-  // const [Items, setItems] = useState([
-  //   {id: '1', item1: `Item ${this.id}-1`, item2: `Item ${this.id}-2`},
-  // ]);
-
-  interface SOME_TYPE {
-    id: number;
-    title: string;
-    data: string[];
-  }
-
-  const DATA: Array<SOME_TYPE> = [
-    {
-      id: 1,
-      title: `Title ${this.id}`,
-      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
-    },
-    {
-      id: 2,
-      title: `Title ${this.id}`,
-      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
-    },
-    {
-      id: 3,
-      title: `Title ${this.id}`,
-      data: [`Item ${this.id}-1`, `Item ${this.id}-2`],
-    },
-  ];
-
   const styles = StyleSheet.create({
-    item: {
-      color: Colors.black,
+    body: {
+      flex: 1,
+      alignItems: 'center',
+      gap: 10,
+      padding: 10,
+    },
+    text: {
+      textAlign: 'center',
+      color: Colors.white,
       fontSize: 20,
     },
-    title: {
-      backgroundColor: 'skyblue',
-      fontSize: 30,
+    input: {
+      textAlign: 'center',
+      color: Colors.white,
+      fontSize: 20,
+      width: 200,
+      borderWidth: 1,
+      borderColor: 'white',
+      borderRadius: 10,
     },
   });
 
   return (
-    <SectionList
-      keyExtractor={(item, index) => item + index}
-      sections={DATA}
-      renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-      renderSectionHeader={({section: {title}}) => (
-        <Text style={styles.title}>{title}</Text>
-      )}
-    />
+    <View style={styles.body}>
+      <Text style={styles.text}>Please write your name.</Text>
+      <TextInput style={styles.input} />
+    </View>
   );
 }
 

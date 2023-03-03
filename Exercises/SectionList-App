@@ -1,0 +1,63 @@
+import React, {useState} from 'react';
+// import type {PropsWithChildren} from 'react';
+import {SectionList, StyleSheet, Text} from 'react-native';
+
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+
+function App(this: any): JSX.Element {
+  const [count, setCount] = useState(2);
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      title: 'Title 1',
+      data: ['Item 1-1', 'Item 1-2'],
+    },
+  ]);
+
+  const styles = StyleSheet.create({
+    title: {
+      textAlign: 'center',
+      color: Colors.black,
+      backgroundColor: 'skyblue',
+      fontSize: 40,
+      fontStyle: 'italic',
+      borderWidth: 1,
+      borderColor: 'white',
+    },
+    item: {
+      textAlign: 'center',
+      color: Colors.white,
+      fontSize: 30,
+      borderWidth: 1,
+      borderColor: 'white',
+    },
+  });
+
+  return (
+    <SectionList
+      keyExtractor={(item, index) => item + index}
+      sections={items}
+      renderItem={item => {
+        console.log(item);
+        return <Text style={styles.item}>{item.item}</Text>;
+      }}
+      renderSectionHeader={({section: {title}}) => (
+        <Text style={styles.title}>{title}</Text>
+      )}
+      onRefresh={() => {
+        setCount(count + 1);
+        setItems([
+          ...items,
+          {
+            id: count,
+            title: `Title ${count}`,
+            data: [`Item ${count}-1`, `Item ${count}-2`],
+          },
+        ]);
+      }}
+      refreshing={false}
+    />
+  );
+}
+
+export default App;
