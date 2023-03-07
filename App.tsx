@@ -1,6 +1,18 @@
-import React, {useState} from 'react';
+import React from 'react';
 // import type {PropsWithChildren} from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  Touchable,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -32,6 +44,21 @@ function App(this: any): JSX.Element {
     <View style={styles.body}>
       <Text style={styles.text}>Please write your name.</Text>
       <TextInput style={styles.input} />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          ToastAndroid.showWithGravity(
+            'Hello World!',
+            ToastAndroid.SHORT,
+            ToastAndroid.TOP,
+          );
+        }}
+        style={{
+          backgroundColor: 'blue',
+          padding: 10,
+          borderRadius: 10,
+        }}>
+        <Text style={styles.text}>Press me</Text>
+      </TouchableWithoutFeedback>
     </View>
   );
 }
