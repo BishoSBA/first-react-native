@@ -4,9 +4,11 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StyleSheet} from 'react-native';
 import ScreenA from './src/ScreenA';
 import ScreenB from './src/ScreenB';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import 'react-native-gesture-handler';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const styles = StyleSheet.create({
   text: {
@@ -27,17 +29,10 @@ const styles = StyleSheet.create({
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator
-      // screenOptions={({route}) => {
-      //   tabBarIcon: ({focused, color, size}) => {
-      //     let iconName;
-      //     if(route.name === "A") {
-      //       iconName = ""
-      //     }
-      >
-        <Tab.Screen name="A" component={ScreenA} />
-        <Tab.Screen name="B" component={ScreenB} />
-      </Tab.Navigator>
+      <Drawer.Navigator>
+        <Drawer.Screen name="A" component={ScreenA} />
+        <Drawer.Screen name="B" component={ScreenB} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };

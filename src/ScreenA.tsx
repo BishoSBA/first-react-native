@@ -9,7 +9,14 @@ const ScreenA = ({navigation}: any) => {
 
   return (
     <View style={styles.view}>
-      <Text>Screen A</Text>
+      <Text
+        style={{
+          fontFamily: 'RubikIso-Regular',
+          fontSize: 30,
+          color: 'white',
+        }}>
+        Screen A
+      </Text>
       <Pressable
         onPress={onPressHandler}
         style={{
