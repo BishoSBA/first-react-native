@@ -1,39 +1,24 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {StyleSheet} from 'react-native';
-import ScreenA from './src/ScreenA';
-import ScreenB from './src/ScreenB';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Home from './src/Home';
+import Login from './src/Login';
 import 'react-native-gesture-handler';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Provider} from 'react-redux';
+import {Store} from './src/redux/store';
 
-const Drawer = createDrawerNavigator();
-
-const styles = StyleSheet.create({
-  text: {
-    textAlign: 'center',
-    color: Colors.white,
-    fontSize: 25,
-  },
-  view: {
-    flex: 1,
-    backgroundColor: 'black',
-    height: 50,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="A" component={ScreenA} />
-        <Drawer.Screen name="B" component={ScreenB} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <Provider store={Store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
