@@ -1,11 +1,10 @@
-/* eslint eqeqeq: 0, curly: 2 */
-import React, { useEffect } from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { View, Text, Pressable, StyleSheet, Alert, FlatList } from 'react-native';
-import SQLite, { SQLError } from 'react-native-sqlite-storage';
-import { TextInput } from 'react-native-paper';
-import { useSelector, useDispatch } from 'react-redux';
-import { setName, setAge, getCities } from './redux/actions';
+import React, {useEffect} from 'react';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {View, Text, Pressable, StyleSheet, Alert} from 'react-native';
+import SQLite, {SQLError} from 'react-native-sqlite-storage';
+import {TextInput} from 'react-native-paper';
+import {useSelector, useDispatch} from 'react-redux';
+import {setName, setAge, getCities} from './redux/actions';
 
 const db = SQLite.openDatabase(
   {
@@ -20,8 +19,8 @@ const db = SQLite.openDatabase(
   },
 );
 
-const Home = ({ navigation }: any) => {
-  const { name, age, cities } = useSelector((state: any) => state.userReducer);
+const OldHome = ({navigation}: any) => {
+  const {name, age, cities} = useSelector((state: any) => state.userReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -90,17 +89,30 @@ const Home = ({ navigation }: any) => {
   return (
     <View style={styles.body}>
       <Text style={styles.title}>Home Screen</Text>
-      <FlatList
-        data={cities}
-        renderItem={({ item }) => (
-          <View>
-            <Text style={styles.text}>{item.country}</Text>
-            <Text style={styles.text}>{item.city}</Text>
-            <View />
-          </View>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      <View style={styles.view}>
+        <View>
+          <Text style={styles.title}>Hi {name}</Text>
+          <Text style={styles.title}>Didn't know you are {age} years old!</Text>
+        </View>
+        <TextInput
+          label="Name"
+          placeholder="Enter your name"
+          onChangeText={text => dispatch(setName(text))}
+          style={styles.input}
+        />
+        <TextInput
+          label="Age"
+          placeholder="Enter your age"
+          onChangeText={text => dispatch(setAge(text))}
+          style={styles.input}
+        />
+        <Pressable onPress={updateData} style={[styles.button, styles.update]}>
+          <Text style={styles.text}>Update</Text>
+        </Pressable>
+        <Pressable onPress={removeData} style={[styles.button, styles.delete]}>
+          <Text style={styles.text}>Delete</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -146,4 +158,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default OldHome;
