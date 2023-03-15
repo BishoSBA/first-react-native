@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448579770173",
+    "project_id": "expo-app-36978",
+    "storage_bucket": "expo-app-36978.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448579770173:android:90b2c28b75cd2e618a9754",
+        "android_client_info": {
+          "package_name": "com.firstreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448579770173-rd0dlh64obu8796mufttrqv48qk494bc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXF1SdaVGsmmYstVBfi5aJ3Jb9vIIzIQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448579770173-rd0dlh64obu8796mufttrqv48qk494bc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

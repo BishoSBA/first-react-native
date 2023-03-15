@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {View, Text, Pressable, StyleSheet, Alert} from 'react-native';
-import SQLite, {SQLError} from 'react-native-sqlite-storage';
-import {TextInput} from 'react-native-gesture-handler';
-import {useSelector, useDispatch} from 'react-redux';
-import {setName, setAge} from './redux/actions';
+import React, { useEffect, useState } from 'react';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { View, Text, Pressable, StyleSheet, Alert } from 'react-native';
+import SQLite, { SQLError } from 'react-native-sqlite-storage';
+import { TextInput } from 'react-native-gesture-handler';
+import { useSelector, useDispatch } from 'react-redux';
+import { setName, setAge } from './redux/actions';
+import PushNotification from 'react-native-push-notification';
+import styles from "./utils/GlobalStyle.js";
 
 const db = SQLite.openDatabase(
   {
@@ -19,13 +21,14 @@ const db = SQLite.openDatabase(
   },
 );
 
-const Login = ({navigation}: any) => {
-  const {name, age} = useSelector((state: any) => state.userReducer);
+const Login = ({ navigation }: any) => {
+  const { name, age } = useSelector((state: any) => state.userReducer);
   const dispatch = useDispatch();
 
   useEffect(() => {
     createTable();
     getData();
+    createChannels();
   }, []);
 
   const createTable = () => {
@@ -35,6 +38,16 @@ const Login = ({navigation}: any) => {
         [],
       );
     });
+  };
+
+  const createChannels = () => {
+    PushNotification.createChannel(
+      {
+        channelId: 'test-channel', // (required)
+        channelName: 'Test Channel', // (required)
+      },
+      (created: boolean) => console.log(`createChannel returned '${created}'`)
+    );
   };
 
   const getData = async () => {
@@ -78,7 +91,7 @@ const Login = ({navigation}: any) => {
   };
 
   return (
-    <View style={styles.body}>
+    <View style={styles.body} >
       <Text style={styles.title}>Login Page</Text>
       <Text style={styles.title}>Name: {name}</Text>
       <Text style={styles.title}>Age: {age}</Text>
@@ -97,51 +110,8 @@ const Login = ({navigation}: any) => {
           <Text style={styles.text}>Login</Text>
         </Pressable>
       </View>
-    </View>
+    </View >
   );
 };
-
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-  },
-  view: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    gap: 20,
-  },
-  title: {
-    fontFamily: 'RubikIso-Regular',
-    fontSize: 30,
-    color: 'white',
-    textAlign: 'center',
-  },
-  text: {
-    textAlign: 'center',
-    color: Colors.white,
-    fontSize: 25,
-  },
-  input: {
-    backgroundColor: 'white',
-    color: 'black',
-    borderRadius: 10,
-  },
-  button: {
-    minWidth: 150,
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  update: {
-    backgroundColor: 'blue',
-  },
-  delete: {
-    backgroundColor: 'red',
-  },
-});
 
 export default Login;

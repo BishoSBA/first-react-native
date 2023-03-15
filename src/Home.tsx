@@ -6,6 +6,8 @@ import SQLite, { SQLError } from 'react-native-sqlite-storage';
 import { TextInput } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { setName, setAge, getCities } from './redux/actions';
+import PushNotification from 'react-native-push-notification';
+import styles from "./utils/GlobalStyle.js";
 
 const db = SQLite.openDatabase(
   {
@@ -19,6 +21,8 @@ const db = SQLite.openDatabase(
     console.log('Error: ', error);
   },
 );
+
+
 
 const Home = ({ navigation }: any) => {
   const { name, age, cities } = useSelector((state: any) => state.userReducer);
@@ -48,43 +52,63 @@ const Home = ({ navigation }: any) => {
     }
   };
 
-  const updateData = async () => {
-    try {
-      await db.transaction(async tx => {
-        tx.executeSql(
-          `UPDATE Users SET Name = ${name}, Age = ${age}`,
-          [],
-          (tx, results) => {
-            console.log('Results', results.rowsAffected);
-            if (results.rowsAffected > 0) {
-              Alert.alert('Success', 'User updated successfully');
-            } else {
-              Alert.alert('Error', 'Please try again');
-            }
-          },
-        );
-      });
-    } catch (error) {
-      console.log('Error: ', error);
-    }
-  };
+  // const updateData = async () => {
+  //   try {
+  //     await db.transaction(async tx => {
+  //       tx.executeSql(
+  //         `UPDATE Users SET Name = ${name}, Age = ${age}`,
+  //         [],
+  //         (tx, results) => {
+  //           console.log('Results', results.rowsAffected);
+  //           if (results.rowsAffected > 0) {
+  //             Alert.alert('Success', 'User updated successfully');
+  //           } else {
+  //             Alert.alert('Error', 'Please try again');
+  //           }
+  //         },
+  //       );
+  //     });
+  //   } catch (error) {
+  //     console.log('Error: ', error);
+  //   }
+  // };
 
-  const removeData = async () => {
-    try {
-      await db.transaction(async tx => {
-        tx.executeSql('DELETE FROM Users', [], (tx, results) => {
-          console.log('Results', results.rowsAffected);
-          if (results.rowsAffected > 0) {
-            Alert.alert('Success', 'User deleted successfully');
-          } else {
-            Alert.alert('Error', 'Please try again');
-          }
-        });
-        navigation.navigate('Login');
-      });
-    } catch (error) {
-      console.log('Error: ', error);
-    }
+  // const removeData = async () => {
+  //   try {
+  //     await db.transaction(async tx => {
+  //       tx.executeSql('DELETE FROM Users', [], (tx, results) => {
+  //         console.log('Results', results.rowsAffected);
+  //         if (results.rowsAffected > 0) {
+  //           Alert.alert('Success', 'User deleted successfully');
+  //         } else {
+  //           Alert.alert('Error', 'Please try again');
+  //         }
+  //       });
+  //       navigation.navigate('Login');
+  //     });
+  //   } catch (error) {
+  //     console.log('Error: ', error);
+  //   }
+  // };
+
+  // const handleNotification = (item: any) => {
+  //   PushNotification.localNotification({
+  //     channelId: 'test-channel',
+  //     title: 'You Clicked on ' + item.country + '',
+  //     message: 'Its capital is ' + item.city + '',
+  //   });
+  //   console.log(item)
+  // };
+
+  interface MapItem {
+    country: string;
+    city: string;
+    latitude: number;
+    longitude: number;
+  }
+
+  const onPressHandler = (item: MapItem) => {
+    navigation.navigate('Maps', { item });
   };
 
   return (
@@ -93,11 +117,16 @@ const Home = ({ navigation }: any) => {
       <FlatList
         data={cities}
         renderItem={({ item }) => (
-          <View>
+          <Pressable
+            style={styles.listItem}
+            onPress={() => onPressHandler(item)}
+          >
             <Text style={styles.text}>{item.country}</Text>
             <Text style={styles.text}>{item.city}</Text>
+            <Text style={styles.text}>{item.latitude}</Text>
+            <Text style={styles.text}>{item.longitude}</Text>
             <View />
-          </View>
+          </Pressable>
         )}
         keyExtractor={(item, index) => index.toString()}
       />
@@ -105,45 +134,6 @@ const Home = ({ navigation }: any) => {
   );
 };
 
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-  },
-  view: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-  },
-  title: {
-    fontFamily: 'RubikIso-Regular',
-    fontSize: 30,
-    color: 'white',
-    textAlign: 'center',
-  },
-  text: {
-    textAlign: 'center',
-    color: Colors.white,
-    fontSize: 25,
-  },
-  input: {
-    backgroundColor: 'white',
-    margin: 10,
-    borderRadius: 10,
-  },
-  button: {
-    minWidth: 150,
-    padding: 10,
-    borderRadius: 10,
-    margin: 10,
-  },
-  update: {
-    backgroundColor: 'blue',
-  },
-  delete: {
-    backgroundColor: 'red',
-  },
-});
+
 
 export default Home;
